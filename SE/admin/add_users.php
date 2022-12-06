@@ -1,136 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <?php
-
-
-session_start();
-error_reporting(0);
 include("../connection/connect.php");
+error_reporting(0);
+session_start();
 
-if(isset($_POST['submit'] ))
+
+
+
+if(isset($_POST['submit']))           //if upload btn is pressed
 {
-    if(empty($_POST['uname']) ||
-   	    empty($_POST['fname'])|| 
-		empty($_POST['lname']) ||  
-		empty($_POST['email'])||
-		empty($_POST['password'])||
-		empty($_POST['phone']) ||
-		empty($_POST['address']||
-        empty($_POST['image'])))
-		{
-			$error = '<div class="alert alert-danger alert-dismissible fade show">
+	
+			
+		
+			
+		  
+		
+		
+	if(empty($_POST['f_name'])||
+        empty($_POST['l_name'])||
+        empty($_POST['username'])||
+        empty($_POST['password'])||
+        empty($_POST['phone'])||
+        empty($_POST['address'])||
+        empty($_POST['email'])||
+        $_POST['job_name']=='')
+		{	
+											$error = 	'<div class="alert alert-danger alert-dismissible fade show">
 																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-																<strong>All fields Required!</strong>
+																<strong>All fields Must be Fillup!</strong>
 															</div>';
+									
+		
+								
 		}
 	else
-	    {
-		
-        $check_username= mysqli_query($db, "SELECT username FROM users where username = '".$_POST['uname']."' ");
-        $check_email = mysqli_query($db, "SELECT email FROM users where email = '".$_POST['email']."' ");
-        $img_name = $_FILES['file']['name']
-                    $temp = $_FILES['file']['tmp_name'];
-                    $fsize = $_FILES['file']['size'];
-                    $extension = explode('.',$img_name);
-                    $extension = strtolower(end($extension));  
-                    $fnew = uniqid().'.'.$extension;
+		{
+                $check_username= mysqli_query($db, "SELECT username FROM users where username = '".$_POST['uname']."' ");
+                $check_email = mysqli_query($db, "SELECT email FROM users where email = '".$_POST['email']."' ");
+				$fname = $_FILES['file']['name'];
+								$temp = $_FILES['file']['tmp_name'];
+								$fsize = $_FILES['file']['size'];
+								$extension = explode('.',$fname);
+								$extension = strtolower(end($extension));  
+								$fnew = uniqid().'.'.$extension;
+   
+								$store = "Res_img/users/".basename($fnew);                      // the path to store the upload image
 
-                    $store = "Res_img/users".basename($fnew)
-        
-        if($extension == 'jpg'||$extension == 'png'||$extension == 'gif' )
-			{        
-			if($fsize>=1000000)
-			    {
+
+
+
+
+
+                    if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) // Validate email address
+                    {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <strong>invalid email!</strong>
+                                </div>';
+                    }
+                    elseif(strlen($_POST['password']) < 6)
+                    {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>Password must be >=6!</strong>
+                                </div>';
+                    }
+                    
+                    elseif(strlen($_POST['phone']) < 10)
+                    {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>invalid phone!</strong>
+                                </div>';
+                    }
+                    elseif(mysqli_num_rows($check_username) > 0)
+                    {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>Username already exist!</strong>
+                                </div>';
+                    }
+                    elseif(mysqli_num_rows($check_email) > 0)
+                    {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>email already exist!</strong>
+                                </div>';
+                    }if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) // Validate email address
+                    {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <strong>invalid email!</strong>
+                                </div>';
+                    }
+                    elseif(strlen($_POST['password']) < 6)
+                    {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>Password must be >=6!</strong>
+                                </div>';
+                    }
+                    
+                    elseif(strlen($_POST['phone']) < 10)
+                    {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>invalid phone!</strong>
+                                </div>';
+                    }
+                    elseif(mysqli_num_rows($check_username) > 0)
+                    {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>Username already exist!</strong>
+                                </div>';
+                    }
+                    elseif(mysqli_num_rows($check_email) > 0)
+                    {
+                        $error = '<div class="alert alert-danger alert-dismissible fade show">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <strong>email already exist!</strong>
+                                </div>';
+                    } 
+					elseif($extension == 'jpg'||$extension == 'png'||$extension == 'gif' )
+					{        
+									if($fsize>=1000000)
+										{
 		
 		
-					$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-								    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								    <strong>Max Image Size is 1024kb!</strong> Try different Image.
-								</div>';
+												$error = 	'<div class="alert alert-danger alert-dismissible fade show">
+																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+																<strong>Max Image Size is 1024kb!</strong> Try different Image.
+															</div>';
 	   
-					}
+										}
 		
-			else
-				{ 
-					$sql = "INSERT INTO users(username,f_name,l_name,email,phone,password,img) VALUE('".$_POST['res_name']."','".$_POST['d_name']."','".$_POST['about']."','".$_POST['price']."','".$fnew."')";  // store the submited data ino the database :images
-					mysqli_query($db, $sql); 
-					move_uploaded_file($temp, $store);
+									else
+										{ 
+												$sql = "INSERT INTO users(username,f_name,l_name,email,phone,password,user_job,address,img) VALUE('".$_POST['username']."','".$_POST['f_name']."','".$_POST['l_name']."','".$_POST['email']."','".$_POST['phone']."','".md5($_POST['password'])."','".$_POST['job_name']."','".$_POST['address']."','".$fnew."')";  // store the submited data ino the database :images
+												mysqli_query($db, $sql); 
+												move_uploaded_file($temp, $store);
 			  
-					$success = 	'<div class="alert alert-success alert-dismissible fade show">
-									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<strong>Congrass!</strong> New Dish Added Successfully.
-								</div>';
-                
+													$success = 	'<div class="alert alert-success alert-dismissible fade show">
+																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+																<strong>Congrass!</strong> New Employee Added Successfully.
+															</div>';
+                                                
 	
-				}
-			}
-		elseif($extension == '')
-			{
-				$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<strong>select image</strong>
-							</div>';
-			}
-		else
-            {
+										}
+					}
+					elseif($extension == '')
+					{
+						$error = 	'<div class="alert alert-danger alert-dismissible fade show">
+																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+																<strong>select image</strong>
+															</div>';
+					}
+					else{
 					
-				$error = 	'<div class="alert alert-danger alert-dismissible fade show">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<strong>invalid extension!</strong>png, jpg, Gif are accepted.
-							</div>';
+											$error = 	'<div class="alert alert-danger alert-dismissible fade show">
+																<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+																<strong>invalid extension!</strong>png, jpg, Gif are accepted.
+															</div>';
 						
 	   
-			}
+						}               
+	   
+	   
+	   }
 
-        if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) // Validate email address
-        {
-            $error = '<div class="alert alert-danger alert-dismissible fade show">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <strong>invalid email!</strong>
-                    </div>';
-        }
-        elseif(strlen($_POST['password']) < 6)
-        {
-            $error = '<div class="alert alert-danger alert-dismissible fade show">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong>Password must be >=6!</strong>
-                    </div>';
-        }
-        
-        elseif(strlen($_POST['phone']) < 10)
-        {
-            $error = '<div class="alert alert-danger alert-dismissible fade show">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong>invalid phone!</strong>
-                    </div>';
-        }
-        elseif(mysqli_num_rows($check_username) > 0)
-        {
-            $error = '<div class="alert alert-danger alert-dismissible fade show">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong>Username already exist!</strong>
-                    </div>';
-        }
-        elseif(mysqli_num_rows($check_email) > 0)
-        {
-            $error = '<div class="alert alert-danger alert-dismissible fade show">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong>email already exist!</strong>
-                    </div>';
-        }
-        else{
-            $mql = "INSERT INTO users(username,f_name,l_name,email,phone,password,address) VALUES('".$_POST['uname']."','".$_POST['fname']."','".$_POST['lname']."','".$_POST['email']."','".$_POST['phone']."','".md5($_POST['password'])."','".$_POST['address']."')";
-            mysqli_query($db, $mql);
-                    $success = 	'<div class="alert alert-success alert-dismissible fade show">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                    <strong>Congrass!</strong> New User Added Successfully.</br>
-                                </div>';
-        }
-	}
+
+
+	
+	
+	
 
 }
 
+
+
+
+
+
+
+
 ?>
+
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -140,7 +198,7 @@ if(isset($_POST['submit'] ))
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
-    <title>Ela - Bootstrap Admin Dashboard Template</title>
+    <title>Add User</title>
     <!-- Bootstrap Core CSS -->
     <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -163,7 +221,7 @@ if(isset($_POST['submit'] ))
     <!-- Main wrapper  -->
     <div id="main-wrapper">
         <!-- header header  -->
-         <div class="header">
+        <div class="header">
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
                 <!-- Logo -->
                 <div class="navbar-header">
@@ -182,8 +240,8 @@ if(isset($_POST['submit'] ))
                         <!-- This is  -->
                         <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted  " href="javascript:void(0)"><i class="mdi mdi-menu"></i></a> </li>
                         <li class="nav-item m-l-10"> <a class="nav-link sidebartoggler hidden-sm-down text-muted  " href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
-                     
-                       
+
+
                     </ul>
                     <!-- User profile and search -->
                     <ul class="navbar-nav my-lg-0">
@@ -195,13 +253,13 @@ if(isset($_POST['submit'] ))
                         </li>
                         <!-- Comment -->
                         <li class="nav-item dropdown">
-                           
+
                             <div class="dropdown-menu dropdown-menu-right mailbox animated zoomIn">
                                 <ul>
                                     <li>
                                         <div class="drop-title">Notifications</div>
                                     </li>
-                                    
+
                                     <li>
                                         <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
                                     </li>
@@ -209,13 +267,13 @@ if(isset($_POST['submit'] ))
                             </div>
                         </li>
                         <!-- End Comment -->
-                      
+
                         <!-- Profile -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="images/users/5.jpg" alt="user" class="profile-pic" /></a>
                             <div class="dropdown-menu dropdown-menu-right animated zoomIn">
                                 <ul class="dropdown-user">
-                                   <li><a href="logout.php"><i class="fa fa-power-off"></i> Logout</a></li>
+                                    <li><a href="logout.php"><i class="fa fa-power-off"></i> Logout</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -230,47 +288,48 @@ if(isset($_POST['submit'] ))
             <div class="scroll-sidebar">
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
-                   <ul id="sidebarnav">
+                    <ul id="sidebarnav">
                         <li class="nav-devider"></li>
                         <li class="nav-label">Home</li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-tachometer"></i><span class="hide-menu">Dashboard</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="dashboard.php">Dashboard</a></li>
-                                
+
                             </ul>
                         </li>
                         <li class="nav-label">Log</li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false">  <span><i class="fa fa-user f-s-20 "></i></span><span class="hide-menu">Users</span></a>
+                        <li>
+                            <a class="has-arrow  " href="#" aria-expanded="false"> <span><i class="fa fa-user f-s-20 "></i></span><span class="hide-menu">Users</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="allusers.php">All Users</a></li>
-								<li><a href="add_users.php">Add Users</a></li>
-								
-                               
+                                <li><a href="add_users.php">Add Users</a></li>
+
+
                             </ul>
                         </li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">Store</span></a>
                             <ul aria-expanded="false" class="collapse">
-								<li><a href="allrestraunt.php">All Stores</a></li>
-								<li><a href="add_category.php">Add Category</a></li>
+                                <li><a href="allrestraunt.php">All Stores</a></li>
+                                <li><a href="add_category.php">Add Category</a></li>
                                 <li><a href="add_restraunt.php">Add Restaurant</a></li>
-                                
+
                             </ul>
                         </li>
-                       <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Menu</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Menu</span></a>
                             <ul aria-expanded="false" class="collapse">
-								<li><a href="all_menu.php">All Menues</a></li>
-								<li><a href="add_menu.php">Add Menu</a></li>
-                              
-                                
+                                <li><a href="all_menu.php">All Menues</a></li>
+                                <li><a href="add_menu.php">Add Menu</a></li>
+
+
                             </ul>
                         </li>
-						 <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span class="hide-menu">Orders</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span class="hide-menu">Orders</span></a>
                             <ul aria-expanded="false" class="collapse">
-								<li><a href="all_orders.php">All Orders</a></li>
-								  
+                                <li><a href="all_orders.php">All Orders</a></li>
+
                             </ul>
                         </li>
-                         
+
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -283,141 +342,139 @@ if(isset($_POST['submit'] ))
             <!-- Bread crumb -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-primary">Dashboard</h3> </div>
-               
+                    <h3 class="text-primary">Dashboard</h3>
+                </div>
+
             </div>
             <!-- End Bread crumb -->
             <!-- Container fluid  -->
             <div class="container-fluid">
                 <!-- Start Page Content -->
-                     <div class="row">
-                   
-                   
-					
-					 <div class="container-fluid">
-                <!-- Start Page Content -->
-                  
-									
-									<?php  echo var_dump($_POST);
-									        echo $error;
-									        echo $success; ?>
-									
-									
-								
-								
-					    <div class="col-lg-12">
-                        <div class="card card-outline-primary">
-                            <div class="card-header">
-                                <h4 class="m-b-0 text-white">Add Users</h4>
-                            </div>
-                            <div class="card-body">
-                                <form action='' method='post'  enctype="multipart/form-data">
-                                    <div class="form-body">
-                                       
-                                        <hr>
-                                        <div class="row p-t-20">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Username</label>
-                                                    <input type="text" name="uname" class="form-control" placeholder="username">
-                                                   </div>
-                                            </div>
-                                            <!--/span-->
-                                            <div class="col-md-6">
-                                                <div class="form-group has-danger">
-                                                    <label class="control-label">First-Name</label>
-                                                    <input type="text" name="fname" class="form-control form-control-danger" placeholder="jon">
-                                                    </div>
-                                            </div>
-                                            <!--/span-->
-                                        </div>
-                                        <!--/row-->
-                                        <div class="row p-t-20">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Last-Name </label>
-                                                    <input type="text" name="lname" class="form-control" placeholder="doe">
-                                                   </div>
-                                            </div>
-                                            <!--/span-->
-                                            <div class="col-md-6">
-                                                <div class="form-group has-danger">
-                                                    <label class="control-label">Email</label>
-                                                    <input type="text" name="email" class="form-control form-control-danger" placeholder="example@gmail.com">
-                                                    </div>
-                                            </div>
-                                            <!--/span-->
-                                        </div>
-                                        <!--/row-->
-										 <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Password</label>
-                                                    <input type="text" name="password" class="form-control form-control-danger" placeholder="password">
-                                                    </div>
-                                                </div>
-                                        
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Phone</label>
-                                                    <input type="text" name="phone" class="form-control form-control-danger" placeholder="phone">
-                                                    </div>
-                                                </div>
-                                            
-                                            <div class="col-md-6">
-                                                <div class="form-group has-danger">
-                                                    <label class="control-label">Image</label>
-                                                    <input type="file" name="image"  id="lastName" class="form-control form-control-danger" placeholder="12n">
-                                                    </div>
-                                            </div>
 
-                                            </div>
-                                            
-                                            <!--/span-->
-                                            <h3 class="box-title m-t-40"> Address</h3>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-md-12 ">
-                                                <div class="form-group">
-                                                    
-                                                    <textarea name="address" type="text" style="height:100px;" class="form-control"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                      
-                                      
-                                            <!--/span-->
-                                        </div>
-                                    </div>
-                                    <div class="form-actions">
-                                        <input type="submit" name="submit" class="btn btn-success" value="save"> 
-                                        <a href="dashboard.php" class="btn btn-inverse">Cancel</a>
-                                    </div>
-                                </form>
-                            </div>
+
+                <?php  echo $error;
+									        echo $success; ?>
+
+
+
+
+                <div class="col-lg-12">
+                    <div class="card card-outline-primary">
+                        <div class="card-header">
+                            <h4 class="m-b-0 text-white">Add Employee to Applicaiton</h4>
                         </div>
+                        <div class="card-body">
+                            <form action='' method='post' enctype="multipart/form-data">
+                                <div class="form-body">
+
+                                    <hr>
+                                    <div class="row p-t-20">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">First-Name </label>
+                                                <input type="text" name="f_name" class="form-control" placeholder="Trinh">
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Last-Name </label>
+                                                <input type="text" name="l_name" class="form-control" placeholder="Khoa">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/row-->
+                                    <div class="row p-t-20">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">User Name</label>
+                                                <input type="text" name="username" class="form-control" placeholder="username">
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group has-danger">
+                                                <label class="control-label">Password</label>
+                                                <input type="text" name="password" class="form-control form-control-danger" placeholder="password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/row-->
+                                    <div class="row p-t-20">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Phone </label>
+                                                <input type="text" name="phone" class="form-control" placeholder="0123456789">
+                                            </div>
+                                        </div>
+                                        <!--/span-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Email </label>
+                                                <input type="text" name="email" class="form-control" placeholder="abc@gmail.com">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/row-->
+                                    <div class="row p-t-20">
+                                        <div class="col-md-6">
+                                            <div class="form-group has-danger">
+                                                <label class="control-label">Image</label>
+                                                <input type="file" name="file" id="lastName" class="form-control form-control-danger" placeholder="12n">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--/span-->
+                                    <div class="row p-t-20">
+                                        <div class="col-md-6">
+                                            <div class="form-group has-danger">
+                                                <label class="control-label">Select Job</label>
+                                                <select name="job_name" class="form-control custom-select" data-placeholder="Choose a Category" >
+                                                        <option>--Select Job--</option>
+                                                 <?php $ssql ="select * from jobs";
+													$res=mysqli_query($db, $ssql); 
+													while($row=mysqli_fetch_array($res))  
+													{
+                                                       echo' <option value="'.$row['job_name'].'">'.$row['job_name'].'</option>';;
+													}  
+                                                 
+													?> 
+													 </select>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                                <h3 class="box-title m-t-40"> Address</h3>
+                                <hr>
+                                    <div class="row">
+                                        <div class="col-md-12 ">
+                                            <div class="form-group">
+                                                    
+                                                <textarea name="address" type="text" style="height:100px;" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+                        <div class="form-actions">
+                            <input type="submit" name="submit" class="btn btn-success" value="save">
+                            <a href="dashboard.php" class="btn btn-inverse">Cancel</a>
+                        </div>
+                        </form>
                     </div>
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
                 </div>
-                <!-- End PAge Content -->
             </div>
-            <!-- End Container fluid  -->
-            <!-- footer -->
-            <footer class="footer"> © 2018 All rights reserved. </footer>
-            <!-- End footer -->
         </div>
-        <!-- End Page wrapper  -->
+        <!-- End PAge Content -->
+    </div>
+    <!-- End Container fluid  -->
+    <!-- footer -->
+
+    <!-- End footer -->
+    </div>
+    <!-- End Page wrapper  -->
     </div>
     <!-- End Wrapper -->
     <!-- All Jquery -->

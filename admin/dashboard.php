@@ -262,7 +262,7 @@ else
             </div>
             <!-- End Container fluid  -->
             <!-- footer -->
-            <footer class="footer"> Designed by Team 01 </footer>
+            <footer class="footer">  </footer>
             <!-- End footer -->
         </div>
         <!-- End Page wrapper  -->

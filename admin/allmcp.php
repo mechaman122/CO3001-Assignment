@@ -124,14 +124,14 @@ session_start();
                                
                             </ul>
                         </li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">MCPs</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-industry f-s-20 color-warning"></i><span class="hide-menu">MCPs</span></a>
                             <ul aria-expanded="false" class="collapse">
 								<li><a href="allmcp.php">All MCPs</a></li>
                                 <li><a href="add_mcp.php">Add MCP</a></li>
                                 
                             </ul>
                         </li>
-                       <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Tasks</span></a>
+                       <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-calendar-o" aria-hidden="true"></i><span class="hide-menu">Tasks</span></a>
                             <ul aria-expanded="false" class="collapse">
 								<li><a href="all_task.php">All Tasks</a></li>
                                 <li><a href="task_type.php">Create Tasks</a></li>
@@ -140,7 +140,7 @@ session_start();
                                 
                             </ul>
                         </li>
-						 <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span class="hide-menu">Vehicles</span></a>
+						 <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-car" aria-hidden="true"></i><span class="hide-menu">Vehicles</span></a>
                             <ul aria-expanded="false" class="collapse">
 								<li><a href="all_vehicle.php">All Vehicles</a></li>
 								  
@@ -294,7 +294,7 @@ session_start();
             </div>
             <!-- End Container fluid  -->
             <!-- footer -->
-            <footer class="footer"> Designed by Kaiz </footer>
+            <footer class="footer"> Designed by Team01 </footer>
             <!-- End footer -->
         </div>
         <!-- End Page wrapper  -->

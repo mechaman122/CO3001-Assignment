@@ -5,7 +5,7 @@ session_start();
 
 
 // sending query
-mysqli_query($db,"DELETE FROM tasks WHERE task_id = '".$_GET['task_del']."'");
+mysqli_query($db,"DELETE FROM task WHERE task_id = '".$_GET['task_del']."'");
 header("location:all_task.php");  
 
 ?>

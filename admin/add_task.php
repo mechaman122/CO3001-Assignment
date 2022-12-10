@@ -31,7 +31,8 @@ if(isset($_POST['submit']))           //if upload btn is pressed
 								
 		}
 	else
-		{
+		{   
+            
 			$sql = "INSERT INTO task(task_type_id,u_id,date,area) VALUE('".$_POST['t_name']."','".$_POST['e_name']."','".$_POST['date']."','".$_POST['area']."')";  // store the submited data ino the database :images
 				mysqli_query($db, $sql); 
 				move_uploaded_file($temp, $store);
@@ -168,14 +169,14 @@ if(isset($_POST['submit']))           //if upload btn is pressed
                                
                             </ul>
                         </li>
-                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-archive f-s-20 color-warning"></i><span class="hide-menu">MCPs</span></a>
+                        <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-industry f-s-20 color-warning"></i><span class="hide-menu">MCPs</span></a>
                             <ul aria-expanded="false" class="collapse">
 								<li><a href="allmcp.php">All MCPs</a></li>
                                 <li><a href="add_mcp.php">Add MCP</a></li>
                                 
                             </ul>
                         </li>
-                       <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-cutlery" aria-hidden="true"></i><span class="hide-menu">Tasks</span></a>
+                       <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-calendar-o" aria-hidden="true"></i><span class="hide-menu">Tasks</span></a>
                             <ul aria-expanded="false" class="collapse">
 								<li><a href="all_task.php">All Tasks</a></li>
                                 <li><a href="task_type.php">Create Tasks</a></li>
@@ -184,7 +185,7 @@ if(isset($_POST['submit']))           //if upload btn is pressed
                                 
                             </ul>
                         </li>
-						 <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span class="hide-menu">Vehicles</span></a>
+						 <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-car" aria-hidden="true"></i><span class="hide-menu">Vehicles</span></a>
                             <ul aria-expanded="false" class="collapse">
 								<li><a href="all_vehicle.php">All Vehicles</a></li>
 								  
@@ -261,7 +262,7 @@ if(isset($_POST['submit']))           //if upload btn is pressed
                                                         $res = mysqli_query($db, $ssql,);
                                                         while($row = mysqli_fetch_array($res))
                                                         {
-                                                            echo' <option value="'.$row['task_id'].'"> '.$row['job_name'].'; '.$row['task_name'].'</option>';
+                                                            echo' <option value="'.$row['task_type_id'].'"> '.$row['job_name'].'; '.$row['task_name'].'</option>';
                                                         }
                                                     ?>
                                                     </select>

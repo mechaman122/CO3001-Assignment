@@ -176,7 +176,7 @@ else
                         <div class="card p-30">
                             <div class="media">
                                 <div class="media-left meida media-middle">
-                                    <span><i class="fa fa-archive f-s-40 color-warning"></i></span>
+                                    <span><i class="fa fa-industry f-s-40 color-warning"></i></span>
                                 </div>
                                 <div class="media-body media-text-right">
                                     <h2><?php $sql="select * from mcps";
@@ -194,7 +194,7 @@ else
                         <div class="card p-30">
                             <div class="media">
                                 <div class="media-left meida media-middle">
-                                    <span><i class="fa fa-cutlery f-s-40" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-calendar-o f-s-40" aria-hidden="true"></i></span>
                                 </div>
                                 <div class="media-body media-text-right">
                                     <h2><?php $sql="select * from task";
@@ -230,7 +230,7 @@ else
                         <div class="card p-30">
                             <div class="media">
                                 <div class="media-left meida media-middle"> 
-                                    <span><i class="fa fa-shopping-cart f-s-40" aria-hidden="true"></i></span>
+                                    <span><i class="fa fa-car f-s-40" aria-hidden="true"></i></span>
                                 </div>
                                 <div class="media-body media-text-right">
                                     <h2><?php $sql="select * from users_orders";
@@ -262,7 +262,7 @@ else
             </div>
             <!-- End Container fluid  -->
             <!-- footer -->
-            <footer class="footer"> © 2022 All rights reserved. </footer>
+            <footer class="footer"> Designed by Kaiz </footer>
             <!-- End footer -->
         </div>
         <!-- End Page wrapper  -->
